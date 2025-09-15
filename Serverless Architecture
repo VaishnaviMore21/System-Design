@@ -1,0 +1,77 @@
+Got it 👍 Let’s go through **Serverless Architecture** step by step with an example.
+
+---
+
+## **1. Definition**
+
+**Serverless Architecture** is a way of building and running applications where the cloud provider manages the infrastructure.
+
+* Developers focus only on writing code (functions).
+* Servers exist, but **you don’t manage them** → scaling, patching, and provisioning are handled automatically by the cloud.
+* You pay only for the execution time (pay-per-use model).
+
+---
+
+## **2. Key Concepts**
+
+1. **FaaS (Function as a Service)**
+
+   * Code runs in short-lived functions triggered by events.
+   * Example: AWS Lambda, Azure Functions, Google Cloud Functions.
+
+2. **BaaS (Backend as a Service)**
+
+   * Using third-party services for features like authentication, storage, databases, etc.
+   * Example: Firebase Auth, DynamoDB, AWS S3.
+
+---
+
+## **3. How It Works**
+
+1. A user makes a request (e.g., uploads a file, clicks a button, sends an API request).
+2. The request triggers a **serverless function**.
+3. The function executes (process data, query DB, send email, etc.).
+4. Cloud provider **automatically scales** depending on load.
+5. You pay **only for function execution time**, not for idle servers.
+
+---
+
+## **4. Advantages**
+
+✅ No server management
+✅ Auto-scaling (from 1 user to millions)
+✅ Cost-efficient (pay-per-use)
+✅ Faster development (focus only on business logic)
+
+---
+
+## **5. Disadvantages**
+
+❌ Cold start latency (first request may be slow)
+❌ Limited execution time (functions usually run for a few seconds/minutes max)
+❌ Harder debugging & monitoring
+❌ Vendor lock-in (tied to a cloud provider’s ecosystem)
+
+---
+
+## **6. Example: Image Processing App**
+
+Imagine you want to build a service that resizes and compresses images when users upload them:
+
+* **Step 1:** User uploads image → stored in **AWS S3**.
+* **Step 2:** This event triggers an **AWS Lambda function**.
+* **Step 3:** Lambda resizes/compresses the image.
+* **Step 4:** Processed image is saved back to S3.
+* **Step 5:** User gets a notification (via AWS SNS or Firebase Cloud Messaging).
+
+👉 No servers to manage, the app **scales automatically**, and you only pay when users upload images.
+
+---
+
+✅ **In short:**
+Serverless = **“You write functions, the cloud runs them.”**
+Example: Instead of renting servers 24/7, you pay **only when your code runs**.
+
+---
+
+Would you like me to also **compare Serverless vs Monolithic vs Microservices** in a quick table for interview prep?
