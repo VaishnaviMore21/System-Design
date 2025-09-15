@@ -1,0 +1,33 @@
+Here’s a **clear, interview-ready comparison** between **Static NAT** and **Dynamic NAT**:
+
+---
+
+| Feature                         | Static NAT                                                  | Dynamic NAT                                                                                        |
+| ------------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Definition**                  | One-to-one mapping between private and public IP            | Private IP mapped to a public IP from a pool dynamically                                           |
+| **IP Mapping**                  | Fixed and permanent                                         | Changes depending on availability in the pool                                                      |
+| **Use Case**                    | Servers or devices that must be reachable from the Internet | General LAN devices accessing the Internet                                                         |
+| **Number of Public IPs Needed** | Equal to number of private IPs mapped                       | Fewer public IPs than private IPs (can share via pool)                                             |
+| **Predictability**              | Predictable; always same mapping                            | Unpredictable; mapping may vary each session                                                       |
+| **Accessibility**               | External devices can always reach the internal device       | External devices cannot predict or reach internal device                                           |
+| **Example**                     | Web server inside LAN: 192.168.1.10 → 203.0.113.5           | Laptop inside LAN uses 192.168.1.20 → one of available public IPs in pool 203.0.113.6–203.0.113.10 |
+
+---
+
+### **Key Points for Interviews**
+
+1. **Static NAT:** Best for servers that need to be accessed publicly (web, mail servers).
+2. **Dynamic NAT:** Used when internal devices need outgoing Internet access but don’t need a fixed public IP.
+3. **Security:** Dynamic NAT adds a minor layer of obscurity, but neither replaces a firewall.
+
+---
+
+💡 **Tip:**
+
+* You can also mention **PAT (Port Address Translation)** as the most common real-world scenario where many private IPs share **one public IP**.
+
+---
+
+If you want, I can make a **diagram showing static vs dynamic NAT mapping** for multiple devices—it’s very visual and easy to explain in interviews.
+
+Do you want me to make that diagram?
