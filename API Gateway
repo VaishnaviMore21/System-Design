@@ -1,0 +1,95 @@
+Perfect 👍 You shared two diagrams that illustrate the **API Gateway** in **System Design**. Let’s break it down step by step.
+
+---
+
+# 🟡 **What is an API Gateway?**
+
+* An **API Gateway** is a single entry point that sits between clients (mobile/web apps) and backend microservices.
+* Instead of clients calling multiple microservices directly, they call the API Gateway → which then routes the request to the right service.
+
+---
+
+# 🔹 **Functions of API Gateway** (from your diagrams)
+
+1. **Authentication & Authorization**
+
+   * Ensures only valid users/services can access the system.
+   * Example: JWT, OAuth tokens checked at gateway.
+
+2. **Caching**
+
+   * Frequently used responses (like product catalog data) are cached to reduce latency and load on backend services.
+
+3. **Rate Limiting / Throttling**
+
+   * Controls how many requests a client can make per second/minute.
+   * Protects services from abuse (e.g., DDoS or bots).
+
+4. **Monitoring & Logging**
+
+   * Tracks API usage, performance, and errors.
+   * Helps in observability and debugging.
+
+5. **Routing**
+
+   * Forwards requests to the appropriate microservice.
+   * Example: `/users` → User Service, `/orders` → Order Service.
+
+6. **Aggregation**
+
+   * Combines data from multiple microservices into one response.
+   * Example: In an e-commerce app, API Gateway fetches data from:
+
+     * User Service (profile info)
+     * Orders Service (recent orders)
+     * Cart Service (pending items)
+   * And returns a **single response** to the client.
+
+7. **Protocol Translation**
+
+   * Converts between different protocols (HTTP, WebSocket, gRPC, etc.).
+   * Allows clients and microservices to use different communication formats.
+
+8. **SSL Termination**
+
+   * Handles HTTPS encryption/decryption at the gateway instead of each service.
+
+---
+
+# 🔹 **Why use an API Gateway?**
+
+✅ Benefits:
+
+* Simplifies client logic (clients don’t call multiple services directly).
+* Centralized security, caching, rate limiting.
+* Helps with **microservices orchestration**.
+* Reduces **round trips** between client and server.
+
+❌ Challenges:
+
+* Can become a **single point of failure** if not replicated.
+* Adds an **extra hop**, which may increase latency slightly.
+* Needs scaling as traffic grows.
+
+---
+
+# 🛒 **E-Commerce Example**
+
+* **Client (Mobile/Web App)** → API Gateway →
+
+  * `/auth` → Authentication Service
+  * `/catalog` → Product Catalog Service
+  * `/cart` → Cart Service
+  * `/checkout` → Payment Service
+
+Instead of calling all these individually, the client just calls **API Gateway**.
+
+---
+
+✅ In short:
+An **API Gateway** = **One Doorway to All Microservices** 🚪.
+It manages **security, routing, caching, aggregation, and monitoring** in one place.
+
+---
+
+Would you like me to also show you **how API Gateway differs from Load Balancer** (they often get confused in interviews)?
