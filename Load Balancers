@@ -1,0 +1,223 @@
+Sure! Let’s go **step by step** and explain **Load Balancers** in system design.
+
+---
+
+### **1. Definition**
+
+A **Load Balancer (LB)** is a **network device or software** that distributes incoming **client requests** across **multiple servers** in order to:
+
+* Ensure **high availability**
+* Improve **performance**
+* Prevent **any single server from being overwhelmed**
+
+It acts as a **traffic manager** between users and servers.
+
+---
+
+### **2. Why We Need Load Balancers**
+
+1. **Scalability** – Handle more traffic by distributing it across multiple servers.
+2. **Reliability / Fault Tolerance** – If one server fails, the LB redirects traffic to healthy servers.
+3. **Performance** – Avoid server overload and reduce response time.
+4. **Redundancy** – Helps in zero-downtime deployments and maintenance.
+
+---
+
+### **3. How It Works**
+
+1. User sends a request (e.g., visiting a website).
+2. Request hits the **Load Balancer** first.
+3. Load Balancer chooses a server based on the **load balancing algorithm**.
+4. Request is forwarded to the selected **backend server**.
+5. Server processes the request and sends a response back to the user (sometimes via the LB).
+
+---
+
+### **4. Types of Load Balancers**
+
+**A. Based on OSI Layer**
+
+1. **Layer 4 (Transport Layer) LB**
+
+   * Works at **TCP/UDP level**
+   * Forwards traffic based on **IP address & port**
+   * Faster, but less intelligent (doesn’t look at the content)
+
+2. **Layer 7 (Application Layer) LB**
+
+   * Works at **HTTP/HTTPS level**
+   * Can route requests based on **URL, headers, cookies**
+   * Supports advanced features like SSL termination, caching, etc.
+
+**B. Based on Deployment**
+
+1. **Hardware Load Balancer** – Dedicated physical device.
+2. **Software Load Balancer** – Runs on a server (e.g., NGINX, HAProxy).
+3. **Cloud Load Balancer** – Provided by cloud services (e.g., AWS ELB, GCP LB, Azure LB).
+
+---
+
+### **5. Load Balancing Algorithms**
+
+1. **Round Robin** – Requests distributed sequentially across servers.
+2. **Least Connections** – Forward to the server with the fewest active connections.
+3. **IP Hash** – Routes requests from the same client IP to the same server.
+4. **Weighted Round Robin / Least Connections** – Assigns weights to servers based on capacity.
+
+---
+
+### **6. Advantages**
+
+* High availability and uptime
+* Better resource utilization
+* Smooth scalability
+* Can handle server failures without affecting users
+
+### **7. Example**
+
+Imagine a website with **3 servers**:
+
+* Without LB: All users hit one server → overload
+* With LB: LB distributes users evenly → all servers share the load → fast and reliable
+
+---
+
+✅ **In short:**
+A **Load Balancer** is like a **traffic cop** for your servers. It ensures that no single server gets overwhelmed, making your application **scalable, fast, and fault-tolerant**.
+
+---
+Here’s a breakdown / analysis of the GeeksforGeeks article *“What is Load Balancer & How Load Balancing works?”* plus some extra thoughts. Happy to critique, or compare with other sources if useful.
+
+---
+
+## ✅ What the Article Covers Well
+
+The article gives a solid, clear introduction to Load Balancers in system design. Key points:
+
+1. **Definition**
+
+   * A load balancer is a device or software that distributes incoming traffic among multiple servers. ([GeeksforGeeks][1])
+   * Goals: high availability, efficient server utilization, avoiding overloaded servers. ([GeeksforGeeks][1])
+
+2. **What happens without a load balancer**
+
+   * Single point of failure (if that server goes down, service goes down). ([GeeksforGeeks][1])
+   * Overloaded servers, limited scalability. ([GeeksforGeeks][1])
+
+3. **Key characteristics / capabilities**
+
+   * Traffic distribution among servers. ([GeeksforGeeks][1])
+   * Health checks / monitoring of backend servers. ([GeeksforGeeks][1])
+   * Scalability (easy to add more servers). ([GeeksforGeeks][1])
+   * SSL termination etc. ([GeeksforGeeks][1])
+
+4. **How load balancers work (flow)**
+
+   * Receive incoming request → check server health → distribute traffic → handle failures → optimize performance. ([GeeksforGeeks][1])
+
+5. **Types of Load Balancers**
+
+   * Hardware vs software vs cloud. ([GeeksforGeeks][1])
+   * OSI layer based (Layer 4 vs Layer 7). ([GeeksforGeeks][1])
+   * Global Server Load Balancer (for geo-distribution). ([GeeksforGeeks][1])
+
+6. **Load balancing algorithms**
+
+   * Static vs Dynamic (Round Robin, Weighted Round Robin, IP Hash, Least Connection, etc.) ([GeeksforGeeks][1])
+
+7. **Benefits & Challenges**
+
+   * Benefits: better performance, scalability, handling failures, efficient resource usage, session persistence. ([GeeksforGeeks][1])
+   * Challenges: LB itself can become single point of failure, managing costs, complexity, configuration difficulty, SSL/TLS handling, overhead etc. ([GeeksforGeeks][1])
+
+---
+
+## ⚠️ Some Gaps / Nuances the Article Doesn’t Emphasize Much
+
+While the article is good for basics/interview prep, here are things it could deepen or clarify:
+
+1. **Load Balancer Resilience / High Availability**
+
+   * The article mentions LB itself being a potential single point of failure. But doesn’t go into *how to make the LB redundant* (multiple LBs, active-active vs active-passive, etc.).
+
+2. **Sticky Sessions vs Stateless**
+
+   * It lightly touches “Maintaining User Sessions” but doesn’t deeply cover scenarios when session affinity is needed vs when to avoid it.
+
+3. **Trade-offs between Layer-4 vs Layer-7**
+
+   * It states both types but doesn’t compare performance vs flexibility tradeoffs (Layer-4 is faster but less flexible, Layer-7 allows routing logic etc.).
+
+4. **Latency, Throughput, Cost Trade-offs**
+
+   * How adding load balancers, health checks, SSL termination affect latency.
+   * What overhead LB introduces (network hops, extra processing).
+
+5. **Global vs Local Load Balancing**
+
+   * Some mention of Global Server LB, but no deep dive into how geo-DNS or edge load balancing or latency-based routing work.
+
+6. **Security Implications**
+
+   * SSL termination, TLS handshake at load balancer, DDoS protection, ACLs, etc.
+
+7. **Autoscaling integration**
+
+   * The article mentions scalability but not how LB works with autoscaling groups (adding/removing servers dynamically).
+
+8. **Monitoring, Observability, Metrics**
+
+   * Need to track metrics like request latencies, server health, error rates, capacity usage, etc., to feed LB decisions.
+
+---
+
+## 💡 Additional Concepts / Patterns Worth Knowing (beyond the Article)
+
+Here are things useful in real systems or deeper interviews:
+
+* **Active-Active vs Active-Passive Load Balancers**
+  Two LBs either both handle traffic (with some sync/heartbeat) or one is standby.
+
+* **Health Check Types**
+  Checking server via simple TCP ping vs HTTP health endpoint vs custom metrics.
+
+* **Circuit Breakers & Fallbacks**
+  If certain servers constantly fail or are slow, being able to circuit-break or temporarily stop routing to them.
+
+* **Blue-Green / Canary Deployments**
+  Using LB to route a small percentage of traffic to a new version to test.
+
+* **Connection Draining / Graceful Shutdown**
+  When removing a server, allow existing connections to finish before stopping.
+
+* **DNS-based Load Balancing**
+  Using DNS to distribute load (with lower precision).
+
+* **Load Balancer as WAF / TLS termination point**
+  Offloading expensive tasks like encryption etc.
+
+---
+
+## 🔎 Example Scenario Applying All This (for E-Commerce)
+
+Here’s how load balancing might be set up in a real e-commerce system (for checkout/catalog etc.):
+
+* **Multiple application servers** behind a Layer-7 load balancer (to route traffic based on path: e.g., /catalog → a pool of servers optimized for read; /checkout → servers optimized for payment logic).
+
+* **Health checks** configured: if a server returns errors or is slow, LB stops directing traffic to it.
+
+* **SSL termination** at LB so backend servers can be simpler.
+
+* **Session persistence** (sticky sessions) especially for shopping cart or checkout steps, but only if necessary and when the cost is acceptable.
+
+* **Autoscaling group** so when traffic surges (flash sale), more app servers spin up, LB detects and includes them.
+
+* **Redundant load balancers** (multi-AZ), so even if LB in one zone fails, traffic is redirected.
+
+* **Monitoring** dashboards for LB metrics, latencies, plus server metrics.
+
+---
+
+If you like, I can summarize all this as **“What you should remember about Load Balancers”** as interview prep points. Do you want that?
+
+[1]: https://www.geeksforgeeks.org/system-design/what-is-load-balancer-system-design/ "What is Load Balancer & How Load Balancing works? - GeeksforGeeks"
