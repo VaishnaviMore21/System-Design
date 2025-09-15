@@ -1,0 +1,122 @@
+Here’s a **complete interview-friendly explanation** of **rainbow tables**:
+
+---
+
+## **1. Definition**
+
+A **rainbow table** is a **precomputed table of hashes** used to reverse cryptographic hash functions.
+
+* It is primarily used in **attacks on password hashes**.
+* Instead of trying all possible passwords in real-time, attackers use a rainbow table to **quickly find the original password** from its hash.
+
+---
+
+## **2. How It Works**
+
+1. **Hashing passwords**:
+
+   * Websites store passwords as hashes (e.g., SHA-256, MD5).
+   * Example: `password123` → `ef92b778...`
+
+2. **Rainbow Table Creation**:
+
+   * Precompute hashes for a large number of possible passwords and store them in a table.
+   * Includes **reduction functions** to map hashes back to possible passwords efficiently.
+
+3. **Attack Process**:
+
+   * Attacker obtains hashed password.
+   * Looks it up in the rainbow table.
+   * If found, they get the original password **without brute-forcing every possibility**.
+
+---
+
+## **3. Example**
+
+* Password: `123456`
+* Hash: `e10adc3949ba59abbe56e057f20f883e` (MD5)
+
+Instead of hashing every guess:
+
+* Attacker uses rainbow table → directly finds `123456` from hash.
+
+---
+
+## **4. How to Prevent Rainbow Table Attacks**
+
+1. **Salting passwords**:
+
+   * Add a **unique random string** to each password before hashing.
+   * Example: `password123` + `Xy7!` → hash → stored
+   * Makes precomputed tables useless because each password hash is unique.
+
+2. **Use strong hashing algorithms**:
+
+   * e.g., `bcrypt`, `scrypt`, `Argon2` (slower, resistant to table attacks)
+
+---
+
+## **5. Interview-Friendly Answer**
+
+> "Rainbow tables are precomputed tables of password hashes used to reverse cryptographic hash functions. Attackers use them to quickly find passwords from their hashes. To defend against rainbow table attacks, websites use techniques like salting and strong hashing algorithms such as bcrypt or Argon2."
+
+---
+
+Sure! Here’s a **concrete example** of a rainbow table attack:
+
+---
+
+### **Example: Simple Password**
+
+1. **User Password:**
+
+```
+password123
+```
+
+2. **Hash Stored in Database (MD5):**
+
+```
+482c811da5d5b4bc6d497ffa98491e38
+```
+
+3. **Rainbow Table:**
+   \| Plaintext      | MD5 Hash                           |
+   \|----------------|----------------------------------|
+   \| 123456         | e10adc3949ba59abbe56e057f20f883e |
+   \| password       | 5f4dcc3b5aa765d61d8327deb882cf99 |
+   \| password123    | 482c811da5d5b4bc6d497ffa98491e38 |
+   \| qwerty         | d8578edf8458ce06fbc5bb76a58c5ca4 |
+
+4. **Attack:**
+
+* Attacker gets the hash `482c811da5d5b4bc6d497ffa98491e38`.
+* Instead of brute-forcing, they **look it up in the rainbow table**.
+* They find that this hash corresponds to `password123`.
+
+---
+
+### **Why Salting Prevents This**
+
+If a salt is added, for example:
+
+```
+Salt: Xy7!
+Password + Salt: password123Xy7!
+Hash: 6f0479a12a8a6e8c1e6e6a2b2b0e29c3
+```
+
+* Even if the attacker has a rainbow table for unsalted passwords, **the hash won’t match**, so the attack fails.
+
+---
+
+✅ **Key Takeaways for Interviews:**
+
+* Rainbow tables speed up **password cracking**.
+* Salting + strong hashes make rainbow tables **useless**.
+
+---
+
+If you want, I can also **make a small visual diagram showing the rainbow table attack and salting prevention**—very easy to explain in interviews.
+
+Do you want me to make that diagram?
