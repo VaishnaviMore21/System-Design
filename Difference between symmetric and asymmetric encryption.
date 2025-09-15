@@ -1,0 +1,73 @@
+Here’s a clear, **interview-ready explanation** of **symmetric vs asymmetric encryption**, with details and examples:
+
+---
+
+## **1. Symmetric Encryption**
+
+**Definition:**
+Encryption where **the same key** is used for both encryption and decryption.
+
+**Key Points:**
+
+* **Key:** Same key for sender and receiver.
+* **Speed:** Fast, suitable for large data.
+* **Security Risk:** Key must be shared securely; if intercepted, data is compromised.
+* **Algorithms:** AES, DES, 3DES, RC4.
+
+**Example:**
+
+```text
+Key = "12345"
+Message = "Hello"
+Encrypted Message = Encrypt(Message, Key) -> "XyZ12"
+Decrypted Message = Decrypt("XyZ12", Key) -> "Hello"
+```
+
+**Use Case:**
+
+* Encrypting large files or database content.
+* Often used in combination with asymmetric encryption for secure key exchange.
+
+---
+
+## **2. Asymmetric Encryption**
+
+**Definition:**
+Encryption where **two keys** are used: **public key** for encryption and **private key** for decryption.
+
+**Key Points:**
+
+* **Key Pair:** Public key (shared) + Private key (kept secret).
+* **Speed:** Slower than symmetric; not ideal for large data.
+* **Security:** No need to share private key; safer for communication over insecure channels.
+* **Algorithms:** RSA, ECC, DSA.
+
+**Example:**
+
+```text
+Public Key (shared) = "ABC"
+Private Key (secret) = "XYZ"
+Message = "Hello"
+Encrypted Message = Encrypt(Message, Public Key) -> "PQ89"
+Decrypted Message = Decrypt("PQ89", Private Key) -> "Hello"
+```
+
+**Use Case:**
+
+* Securely exchanging symmetric keys (like WhatsApp message key exchange).
+* Digital signatures and authentication.
+
+---
+
+## **3. Quick Comparison Table**
+
+| Feature               | Symmetric Encryption                 | Asymmetric Encryption        |
+| --------------------- | ------------------------------------ | ---------------------------- |
+| Keys                  | Same key for encryption & decryption | Public + Private key pair    |
+| Speed                 | Fast                                 | Slower                       |
+| Security              | Key distribution is a challenge      | More secure for key exchange |
+| Data Size Suitability | Large data                           | Small data                   |
+| Use Cases             | Encrypt files, databases             | Key exchange, signatures     |
+
+---
+
