@@ -1,0 +1,70 @@
+Perfect question 👍 A **CDN (Content Delivery Network)** is one of the most asked topics in **system design** and **web performance** interviews. Let me break it down step by step:
+
+---
+
+## **What is a CDN?**
+
+👉 A **Content Delivery Network (CDN)** is a geographically distributed network of servers that work together to deliver **web content (like images, videos, CSS, JavaScript, HTML, or even entire web pages)** to users **faster and more reliably**.
+
+Instead of every request going to your **main/origin server**, a CDN caches and serves content from servers that are **closer to the user**.
+
+---
+
+## **How CDN Works (Step by Step)**
+
+1. **Origin Server** → This is your main server (where the original content lives).
+2. **CDN Edge Servers** → Located in different parts of the world (called **Points of Presence – PoPs**).
+3. **Caching** → When a user requests content:
+
+   * If the edge server already has it cached → it serves instantly.
+   * If not → it fetches from the origin server, caches it, and then serves it.
+4. **User Request** → Always gets routed to the **nearest edge server** using DNS routing.
+
+---
+
+## **Example**
+
+* Without CDN:
+  A user in India visits a website hosted in the US → request travels across the world → slow.
+
+* With CDN:
+  The same user gets content from a CDN server in Mumbai → much faster.
+
+---
+
+## **Benefits of a CDN**
+
+✅ **Faster Content Delivery** (low latency because server is near the user).
+✅ **Reduced Load on Origin Server** (traffic is distributed).
+✅ **Scalability** (can handle sudden traffic spikes, e.g., product launches, live streams).
+✅ **DDoS Protection & Security** (filters bad traffic at edge).
+✅ **High Availability** (if one server goes down, another nearby can serve).
+
+---
+
+## **Real-World CDN Providers**
+
+* Cloudflare
+* Akamai
+* Amazon CloudFront
+* Google Cloud CDN
+* Fastly
+
+---
+
+## **Interview-Friendly Answer**
+
+> "A CDN is a globally distributed network of servers that caches and delivers web content from the nearest server to the user, instead of always hitting the origin server. This reduces latency, improves website speed, scales better under high traffic, and adds resilience. For example, Cloudflare or Akamai can serve static assets like images, CSS, and videos from local edge servers across the world, making websites much faster and more reliable."
+
+---
+
+⚡Pro Tip: In interviews, if they ask **why websites use CDNs**, you can say:
+
+* To improve **performance (speed)**
+* To improve **scalability**
+* To improve **availability and fault tolerance**
+* To add **security features like DDoS protection**
+
+---
+
+Do you want me to also make a **diagram (flow of request with and without CDN)** so you can visually explain this in interviews?
