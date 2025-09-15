@@ -1,0 +1,128 @@
+Great question 👍 Let’s break down **Database Sharding** clearly (since it’s a very common system design interview topic).
+
+---
+
+# **Database Sharding**
+
+## **1. Definition**
+
+**Sharding** = Splitting a **large database into smaller pieces (shards)**, where each shard holds a **subset of data**.
+
+* Each shard is a **separate database** (with its own server).
+* Together, all shards make up the full dataset.
+
+👉 Instead of one giant DB struggling with millions of rows, we split it into smaller, more manageable parts.
+
+---
+
+## **2. Why Sharding?**
+
+* To handle **very large datasets** (scalability).
+* To reduce **query load on a single database**.
+* To improve **performance & response time**.
+* To avoid storage bottlenecks on one machine.
+
+---
+
+## **3. How Sharding Works (Strategies)**
+
+### 🔹 1. **Key-Based (Hash Sharding)**
+
+* Apply a **hash function** on a key (e.g., user\_id).
+* The result decides which shard stores the record.
+* Ensures even distribution.
+  👉 Example:
+* `user_id % 3` → 0 → Shard 1, 1 → Shard 2, 2 → Shard 3
+
+---
+
+### 🔹 2. **Range-Based Sharding**
+
+* Data is divided by ranges.
+  👉 Example:
+* Users 1–100k → Shard 1
+* Users 100k–200k → Shard 2
+* Users 200k–300k → Shard 3
+
+*Issue:* Some shards may become “hot” if ranges are uneven.
+
+---
+
+### 🔹 3. **Geo/Directory-Based Sharding**
+
+* Manually assign data to shards based on rules.
+  👉 Example:
+* All **US customers** → Shard A
+* All **EU customers** → Shard B
+
+---
+
+## **4. Example Use Case**
+
+👉 **Instagram / Twitter**
+
+* Users are distributed across multiple shards based on `user_id`.
+* When you log in, the system knows which shard contains your data.
+* This way, no single DB handles all users.
+
+---
+
+## **5. Advantages**
+
+✅ Handles **huge datasets** beyond one server’s capacity.
+✅ Improves **performance** (queries hit fewer rows).
+✅ Enables **horizontal scaling** (add more shards when needed).
+
+---
+
+## **6. Disadvantages**
+
+❌ **Complexity** → Queries must know which shard to hit.
+❌ **Re-sharding** is hard when data grows unevenly.
+❌ **Joins across shards** are expensive (need to fetch from multiple shards).
+❌ **Operational overhead** → Backup, monitoring, failover are harder.
+
+---
+
+## **7. Sharding vs Replication**
+
+* **Replication** = Copy the **same data** to multiple servers (improves availability, read scaling).
+* **Sharding** = Split **different parts of data** across servers (improves write + storage scaling).
+
+👉 Often, companies use **both** together.
+
+---
+
+## **8. Real-World Examples**
+
+* **MongoDB Sharding** (built-in sharding support).
+* **MySQL with Vitess** (used by YouTube).
+* **Cassandra** (automatically shards data).
+* **Big companies**: Twitter, Facebook, Google → all shard user data.
+
+---
+
+## **Quick Diagram (in words)**
+
+```
+Users Data → Split by user_id → Multiple Shards
+
+        ┌──────────┐
+        │ Shard 1  │ → Users 1–100k
+        └──────────┘
+        ┌──────────┐
+        │ Shard 2  │ → Users 100k–200k
+        └──────────┘
+        ┌──────────┐
+        │ Shard 3  │ → Users 200k–300k
+        └──────────┘
+```
+
+---
+
+✅ **In short:**
+Sharding = **divide and conquer for databases** → split big data into smaller DBs so system can scale horizontally.
+
+---
+
+Would you like me to also prepare a **side-by-side table: Sharding vs Replication vs Partitioning** for quick interview revision?
