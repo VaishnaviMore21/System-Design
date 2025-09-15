@@ -1,0 +1,62 @@
+Here’s a clear breakdown of what you’ve shared about **DNS resolution and its structure**, organized for easy understanding:
+
+---
+
+### **DNS Resolution Process (Step-by-Step)**
+
+1. **User Input:**
+   You type a website address (e.g., `www.geeksforgeeks.org`) into your browser.
+
+2. **Local Cache Check:**
+   The browser first checks its **local cache** for the IP address of the domain.
+
+   * If found, it uses this IP directly.
+   * If not, it proceeds to query external servers.
+
+3. **DNS Resolver Query:**
+   Your computer sends a request to a **DNS resolver**, usually provided by your ISP or network settings.
+
+4. **Root DNS Server:**
+   The resolver queries a **root DNS server**.
+
+   * Root servers do **not** have the exact IP but know which **TLD server** to contact (based on `.org` in this case).
+
+5. **TLD Server:**
+   The **Top-Level Domain (TLD) server** for `.org` directs the resolver to the **authoritative DNS server** for `geeksforgeeks.org`.
+
+6. **Authoritative DNS Server:**
+   This server has the actual DNS records and returns the **IP address** of the website’s server to the resolver.
+
+7. **Final Response:**
+   The resolver sends the IP address back to your computer, which then connects to the website and loads the page.
+
+> ⚡ This whole process happens in **milliseconds**, allowing fast browsing.
+
+---
+
+### **DNS Structure**
+
+DNS works in a **hierarchical structure** to ensure global scalability and reliability:
+
+1. **Root DNS Servers:**
+
+   * Highest level of DNS.
+   * Know the locations of TLD servers.
+
+2. **TLD Servers:**
+
+   * Manage domain extensions like `.com`, `.org`, `.net`.
+   * Direct queries to the **authoritative DNS servers** for specific domains.
+
+3. **Authoritative DNS Servers:**
+
+   * Store actual DNS records.
+   * Provide the correct **IP addresses** for domain names.
+
+> This hierarchy enables DNS to handle **billions of queries daily**, ensuring stability and scalability of the internet.
+
+---
+
+If you want, I can also **draw a simple diagram showing the DNS resolution flow** from the browser to the authoritative server—it makes this process super easy to visualize.
+
+Do you want me to do that?
