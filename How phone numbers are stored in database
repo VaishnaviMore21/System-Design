@@ -1,0 +1,110 @@
+Here’s a detailed explanation of **how phone numbers are stored in databases**, including best practices and interview-ready points:
+
+---
+
+## **1. Basic Storage**
+
+* Phone numbers can be stored in **text (VARCHAR/CHAR)** or **numeric (INT/ BIGINT)** columns.
+
+### **Option 1: Text (Recommended)**
+
+```sql
+CREATE TABLE Users (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    phone_number VARCHAR(15)
+);
+```
+
+**Reason to use text:**
+
+* Preserves **leading zeros** (important for numbers like `0912345678`).
+* Allows **international numbers** with `+` and country codes (e.g., `+91 9123456789`).
+* Can store **extensions or separators** (like `+1-800-123-4567`).
+
+---
+
+### **Option 2: Numeric (INT/BIGINT)**
+
+```sql
+CREATE TABLE Users (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    phone_number BIGINT
+);
+```
+
+**Cons of numeric:**
+
+* Cannot store leading zeros.
+* Cannot store `+` or special characters.
+* Limited in length; BIGINT max is 18-19 digits.
+
+---
+
+## **2. International Format (E.164)**
+
+**Best practice for modern apps:**
+
+* Store **phone numbers in E.164 format**:
+
+  ```
+  +[country code][national number]
+  Example: +919876543210
+  ```
+* This is a **global standard**, ensures consistency, and works well with APIs like Twilio or Firebase.
+
+**Database column:**
+
+```sql
+phone_number VARCHAR(16)
+```
+
+---
+
+## **3. Validation & Normalization**
+
+* Always **validate** input to ensure it’s a proper phone number.
+* **Normalize** numbers before storing:
+
+  * Remove spaces, dashes, brackets.
+  * Store in a standard format like `+CCXXXXXXXXXX`.
+
+**Example in Python:**
+
+```python
+import phonenumbers
+
+number = "+91 98765-43210"
+parsed_number = phonenumbers.parse(number, None)
+e164_number = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
+# e164_number = "+919876543210"
+```
+
+---
+
+## **4. Interview-Friendly Notes**
+
+* **Data type:** VARCHAR is preferred over numeric types.
+* **Length:** VARCHAR(15–16) is enough for international numbers.
+* **Normalization:** Always store in **E.164 format**.
+* **Validation:** Use regex or libraries to avoid invalid numbers.
+* **Indexes:** Can index phone numbers if used for lookups, but consider **unique constraint** if each number should be unique.
+
+---
+
+✅ **Summary Table**
+
+| Aspect           | Recommendation                                      |
+| ---------------- | --------------------------------------------------- |
+| Data Type        | VARCHAR/CHAR                                        |
+| Format           | E.164 (`+CCXXXXXXXXXX`)                             |
+| Length           | 15–16 characters                                    |
+| Storage of + / 0 | Works only with VARCHAR                             |
+| Validation       | Use regex or phone libraries (e.g., libphonenumber) |
+
+---
+
+If you want, I can make a **diagram showing how phone numbers are normalized, validated, and stored in a database**—very handy for interviews.
+
+Do you want me to make that diagram?

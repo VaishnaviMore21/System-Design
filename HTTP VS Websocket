@@ -1,0 +1,24 @@
+Here’s a detailed comparison of **WebSocket** vs **HTTP connection** to make the differences clear:
+
+| Feature             | HTTP                                             | WebSocket                                                             |
+| ------------------- | ------------------------------------------------ | --------------------------------------------------------------------- |
+| **Protocol Type**   | Request-response (stateless)                     | Full-duplex, persistent (stateful)                                    |
+| **Connection**      | Short-lived: each request opens a new connection | Long-lived: single connection stays open for continuous communication |
+| **Communication**   | Client initiates, server responds                | Both client and server can send messages anytime (bidirectional)      |
+| **Overhead**        | High: every request carries headers              | Low: headers sent only once during handshake                          |
+| **Latency**         | Higher latency due to repeated handshakes        | Low latency since connection stays open                               |
+| **Use Case**        | Loading web pages, REST APIs, form submissions   | Real-time apps: chat, gaming, live feeds, stock tickers               |
+| **Transport Layer** | TCP (request/response model)                     | TCP (persistent socket, upgraded from HTTP)                           |
+| **Scalability**     | Easier to scale with stateless servers           | Needs careful handling for many concurrent connections                |
+| **Example**         | Fetching data from `example.com/api`             | Real-time chat between `client ↔ server`                              |
+
+---
+
+### **Key Points to Remember:**
+
+1. **HTTP** is simple and stateless; it’s great for traditional web browsing.
+2. **WebSocket** is designed for real-time communication, avoiding repeated handshakes.
+3. You can **upgrade an HTTP connection to WebSocket** via a handshake (`HTTP Upgrade` header).
+
+---
+

@@ -1,0 +1,91 @@
+Here’s a **detailed, interview-friendly explanation** of **NAT (Network Address Translation)** and how it works:
+
+---
+
+## **1. Definition**
+
+**NAT (Network Address Translation)** is a technique used in networking where a router or firewall **translates private IP addresses to a public IP address** (and vice versa) to allow devices on a local network (LAN) to communicate with the Internet.
+
+* It **conserves public IP addresses**.
+* Provides **security** by hiding internal IPs from the Internet.
+
+---
+
+## **2. Why NAT is Needed**
+
+1. **Limited IPv4 addresses**:
+
+   * Private networks use **private IPs** (e.g., 192.168.x.x).
+   * These private IPs are not routable on the Internet.
+   * NAT allows multiple devices to share a **single public IP**.
+
+2. **Security**:
+
+   * Devices on the LAN are hidden from external users.
+
+---
+
+## **3. How NAT Works**
+
+1. **Outgoing Traffic (LAN → Internet)**
+
+   * Device sends a packet with its **private IP**.
+   * Router replaces the **source IP** with its **public IP** and assigns a **unique port number**.
+   * Stores mapping in **NAT table**:
+
+     ```
+     Private IP:Port → Public IP:Port
+     ```
+   * Sends packet to the Internet.
+
+2. **Incoming Traffic (Internet → LAN)**
+
+   * Router receives response from Internet addressed to **public IP + port**.
+   * Router looks up NAT table to find the **private IP + port**.
+   * Forwards the packet to the correct device on LAN.
+
+---
+
+### **4. Example Table (NAT Table)**
+
+| Private IP   | Private Port | Public IP   | Public Port |
+| ------------ | ------------ | ----------- | ----------- |
+| 192.168.1.10 | 5000         | 203.0.113.5 | 6000        |
+| 192.168.1.11 | 5001         | 203.0.113.5 | 6001        |
+
+---
+
+### **5. Types of NAT**
+
+1. **Static NAT**
+
+   * One-to-one mapping between private IP and public IP.
+   * Useful for servers that must be reachable from Internet.
+
+2. **Dynamic NAT**
+
+   * Maps private IPs to a **pool of public IPs** dynamically.
+
+3. **PAT (Port Address Translation) / NAT Overload**
+
+   * Maps multiple private IPs to **one public IP** using **different port numbers**.
+   * Most common in home networks.
+
+---
+
+## **6. Interview-Friendly Answer**
+
+> "NAT (Network Address Translation) is a technique used by routers to map private IP addresses of devices in a local network to a public IP address for Internet communication. It allows multiple devices to share a single public IP and adds a layer of security by hiding internal IPs. NAT works by replacing the source IP and port of outgoing packets with the public IP and a unique port, storing this mapping in a NAT table, and then reversing the process for incoming packets."
+
+---
+
+💡 **Tip for Interviews:**
+
+* Draw a diagram showing **LAN devices → Router with NAT → Internet**, with arrows and NAT table mapping.
+* Mention **PAT/NAT overload**, as it’s the most common type in real-world networks.
+
+---
+
+If you want, I can **draw a simple diagram showing NAT with multiple devices sharing one public IP**, perfect for visual understanding in interviews.
+
+Do you want me to make that diagram?

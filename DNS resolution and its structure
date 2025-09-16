@@ -1,0 +1,101 @@
+Here’s a clear breakdown of what you’ve shared about **DNS resolution and its structure**, organized for easy understanding:
+
+---
+
+### **DNS Resolution Process (Step-by-Step)**
+
+1. **User Input:**
+   You type a website address (e.g., `www.geeksforgeeks.org`) into your browser.
+
+2. **Local Cache Check:**
+   The browser first checks its **local cache** for the IP address of the domain.
+
+   * If found, it uses this IP directly.
+   * If not, it proceeds to query external servers.
+
+3. **DNS Resolver Query:**
+   Your computer sends a request to a **DNS resolver**, usually provided by your ISP or network settings.
+
+4. **Root DNS Server:**
+   The resolver queries a **root DNS server**.
+
+   * Root servers do **not** have the exact IP but know which **TLD server** to contact (based on `.org` in this case).
+
+5. **TLD Server:**
+   The **Top-Level Domain (TLD) server** for `.org` directs the resolver to the **authoritative DNS server** for `geeksforgeeks.org`.
+
+6. **Authoritative DNS Server:**
+   This server has the actual DNS records and returns the **IP address** of the website’s server to the resolver.
+
+7. **Final Response:**
+   The resolver sends the IP address back to your computer, which then connects to the website and loads the page.
+
+> ⚡ This whole process happens in **milliseconds**, allowing fast browsing.
+
+---
+
+### **DNS Structure**
+
+DNS works in a **hierarchical structure** to ensure global scalability and reliability:
+
+1. **Root DNS Servers:**
+
+   * Highest level of DNS.
+   * Know the locations of TLD servers.
+
+2. **TLD Servers:**
+
+   * Manage domain extensions like `.com`, `.org`, `.net`.
+   * Direct queries to the **authoritative DNS servers** for specific domains.
+
+3. **Authoritative DNS Servers:**
+
+   * Store actual DNS records.
+   * Provide the correct **IP addresses** for domain names.
+
+> This hierarchy enables DNS to handle **billions of queries daily**, ensuring stability and scalability of the internet.
+
+---
+Got it 👍 Let’s break down **DNS (Domain Name System)** in an **interview-style explanation**:
+
+---
+
+## **What is DNS?**
+
+* DNS is the **phonebook of the Internet**.
+* It translates **human-readable domain names** (like `www.google.com`) into **IP addresses** (like `142.250.190.14`) that computers use to communicate.
+
+---
+
+## **How DNS Works (Step by Step)**
+
+1. **User enters a URL** in the browser → `www.example.com`.
+2. **DNS Resolver (usually your ISP’s)** checks if it knows the IP.
+
+   * If cached → returns immediately.
+3. If not cached → Resolver queries the **Root DNS servers**.
+4. Root server directs to the **TLD server** (.com, .org, etc.).
+5. TLD server directs to the **Authoritative DNS server** for that domain.
+6. Authoritative server returns the correct **IP address**.
+7. Browser uses the IP to connect to the server.
+
+---
+
+## **Types of DNS Records**
+
+* **A Record** → Maps a domain to IPv4 address.
+* **AAAA Record** → Maps a domain to IPv6 address.
+* **CNAME Record** → Alias of another domain.
+* **MX Record** → Mail server for a domain.
+* **TXT Record** → Stores arbitrary text (SPF, DKIM, verification).
+* **NS Record** → Authoritative name servers for the domain.
+
+---
+
+## **Interview-Friendly Answer**
+
+> "DNS is the system that translates human-readable domain names into IP addresses so computers can communicate. When a user enters a URL, the DNS resolver queries a hierarchy of servers — root, TLD, and authoritative — until it finds the IP address, which is then returned to the client. DNS records like A, MX, CNAME, and TXT define how domains map to services."
+
+---
+
+Would you like me to also **draw a simple DNS resolution diagram** (browser → resolver → root → TLD → authoritative → server) to make this visual for interview prep?

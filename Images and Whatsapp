@@ -1,0 +1,258 @@
+Images can be stored in a database in **two main ways**: **directly as binary data** or **indirectly as references**. Let’s go step by step.
+
+---
+
+### **1. Storing Images as Binary Data (BLOB)**
+
+* **BLOB** stands for **Binary Large Object**. Databases like MySQL, PostgreSQL, and Oracle support BLOB data types.
+* The image file (JPEG, PNG, etc.) is converted into **binary format** (raw bytes) and stored directly in a database column.
+
+#### **Steps**
+
+1. Convert the image to binary (byte array).
+2. Insert it into a column of type `BLOB`.
+3. Retrieve it by reading the BLOB and converting it back to an image.
+
+#### **Example (MySQL)**
+
+```sql
+CREATE TABLE Images (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    image_data LONGBLOB
+);
+```
+
+Insert using Python:
+
+```python
+with open('image.jpg', 'rb') as file:
+    binary_data = file.read()
+
+cursor.execute("INSERT INTO Images (name, image_data) VALUES (%s, %s)", ('myImage', binary_data))
+```
+
+#### **Pros**
+
+* Everything is in one place (DB contains both data and images).
+* Transactions work the same way as other data.
+
+#### **Cons**
+
+* Databases get very large and slower to query.
+* Harder to serve images directly via a web server.
+
+---
+
+### **2. Storing Images as Paths/URLs (Recommended)**
+
+* Instead of storing the image itself, **store its path or URL** in the database.
+* The actual image is saved in **filesystem, cloud storage (AWS S3, Google Cloud Storage), or CDN**.
+
+#### **Steps**
+
+1. Save the image in a directory or cloud storage.
+2. Store the image path or URL in the database column.
+
+#### **Example Table**
+
+```sql
+CREATE TABLE Images (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    image_path VARCHAR(255)
+);
+```
+
+Insert path in Python:
+
+```python
+image_path = "/images/image.jpg"
+cursor.execute("INSERT INTO Images (name, image_path) VALUES (%s, %s)", ('myImage', image_path))
+```
+
+#### **Pros**
+
+* Database size remains small.
+* Faster access and easier to serve images over the web.
+* Scalable for web applications.
+
+#### **Cons**
+
+* You need to manage filesystem storage separately.
+* Risk of broken links if files are deleted.
+
+---
+
+Yes, images **can be hashed and stored**, but it’s important to understand **what that means and its use cases**. Hashing an image is **different from storing the actual image**.
+
+---
+
+### **1. What is Hashing?**
+
+* A **hash** is a fixed-size string (like `SHA-256`) generated from input data.
+* The hash is **unique** for each input. Even a small change in the image gives a completely different hash.
+* Hashes are **irreversible** — you cannot reconstruct the original image from the hash.
+
+---
+
+### **2. Storing Image Hashes**
+
+You can store an image’s hash in a database instead of the actual image. Typical use cases:
+
+#### **Use Cases**
+
+1. **Duplicate detection**
+
+   * Check if the same image is already uploaded.
+   * Example: Before saving an image, compute its hash and compare with stored hashes.
+
+2. **Integrity verification**
+
+   * Ensure the image hasn’t been tampered with.
+   * Compare stored hash with a hash of the retrieved image.
+
+3. **Fast lookups**
+
+   * Hashes are smaller in size, making comparisons faster than comparing full images.
+
+---
+
+### **3. How It Works**
+
+#### **Step 1: Compute the hash**
+
+```python
+import hashlib
+
+with open('image.jpg', 'rb') as f:
+    img_bytes = f.read()
+    hash_value = hashlib.sha256(img_bytes).hexdigest()
+
+print(hash_value)
+```
+
+#### **Step 2: Store in database**
+
+```sql
+CREATE TABLE ImageHashes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    image_name VARCHAR(100),
+    image_hash VARCHAR(64)
+);
+```
+
+```python
+cursor.execute("INSERT INTO ImageHashes (image_name, image_hash) VALUES (%s, %s)", ('myImage', hash_value))
+```
+
+---
+
+### **4. Important Notes**
+
+* You **cannot recover the image** from its hash.
+* Hashing is **useful for verification or deduplication**, not for storing the actual content.
+* If you want to **retrieve the image**, you must store it somewhere else (filesystem, cloud, or BLOB).
+
+---
+
+Absolutely! Let’s look at the **interview perspective** on storing images in databases and hashing them. I’ll break it down into **what interviewers expect, common questions, and strong answers**.
+
+---
+
+## **1. Storing Images in Database (Interview POV)**
+
+**Q: How do you store images in a database?**
+
+* **Answer:**
+  "Images can be stored in two ways:
+
+  1. **BLOBs**: Store the binary data directly in the database. Suitable for small-scale applications, but it can make the database heavy and slower.
+  2. **File paths/URLs**: Store the image on a filesystem or cloud storage (like AWS S3) and store only its path or URL in the database. This is the preferred method for web apps due to scalability and performance."
+
+**Follow-up Q: Which one is better for large applications?**
+
+* **Answer:** "Storing file paths/URLs is better because databases remain lightweight and serving images is faster. BLOBs are rarely used in large-scale web apps."
+
+---
+
+## **2. Hashing Images (Interview POV)**
+
+**Q: Can we store an image as a hash? Why or why not?**
+
+* **Answer:**
+  "Yes, we can hash images, but hashing is irreversible, so you cannot retrieve the image from the hash. Hashes are mainly used for:
+
+  1. **Detecting duplicates** — prevent uploading the same image twice.
+  2. **Integrity verification** — check if an image has been altered.
+  3. **Quick lookups** — compare small fixed-size hashes instead of large image data."
+
+**Follow-up Q: What hashing algorithms can be used?**
+
+* **Answer:** "SHA-256 or MD5 for exact matching. For detecting similar images, perceptual hashing like `pHash` is used."
+
+---
+
+## **3. Common Interview Tips**
+
+* **Understand trade-offs**: Be ready to explain why storing paths is better than BLOBs in most web apps.
+* **Mention size and performance**: Large images can slow down database queries if stored directly.
+* **Optional advanced knowledge**: Perceptual hashing or content-addressable storage (like Git uses) can impress senior interviewers.
+* **Example scenario**: If asked, give a short example like:
+
+*"Suppose a user uploads a profile picture. I would store the image in AWS S3 and save its URL in the database. Before storing, I’d calculate its SHA-256 hash to prevent duplicate uploads."*
+
+---
+This is a great question! It touches on **real-time communication protocols** and **how messaging apps handle status updates**. Let’s break it down carefully.
+
+---
+
+## **1. Real-Time Communication**
+
+WhatsApp uses **persistent connections** to its servers instead of opening a new connection every time you send a message.
+
+* **Protocol:** WhatsApp primarily uses **XMPP (Extensible Messaging and Presence Protocol)** with some custom optimizations.
+* **Persistent TCP connection:**
+
+  * When you open WhatsApp, your app maintains an **open TCP connection** to the WhatsApp server.
+  * This is like keeping a “phone line” open, so the server can **instantly push updates** to your device.
+
+---
+
+## **2. How “Typing…” Works**
+
+1. **User starts typing** → WhatsApp app sends a **small signal** (a “typing event”) to the server.
+2. **Server forwards this signal** to the recipient’s device immediately.
+3. **Recipient sees ‘typing…’** in real time.
+
+**Important points:**
+
+* The actual message is **not sent yet**, only a tiny event indicating typing.
+* This happens **instantly**, even across continents, because the server handles **efficient, low-latency push updates**.
+* No need for the client to poll continuously; the server **pushes events** as they happen.
+
+---
+
+## **3. Why It Feels Instant**
+
+* **Persistent connection** ensures minimal latency.
+* **Signal size is very small**, so it can travel quickly over the internet.
+* **Global infrastructure**: WhatsApp uses **distributed servers/CDNs** to reduce latency worldwide.
+
+---
+
+## **4. Interview-Friendly Answer**
+
+> "WhatsApp shows ‘typing…’ instantly because it maintains a persistent connection to its servers. When a user types, a small ‘typing’ event is sent to the server, which immediately pushes it to the recipient’s device. This event-driven architecture, combined with distributed servers, allows real-time updates even across continents."
+
+---
+
+💡 **Extra Tip:**
+You can also mention **WebSocket or TCP push notifications** as the underlying tech that enables instant events.
+
+---
+
+If you want, I can make a **diagram showing how WhatsApp handles typing notifications in real time**, which makes this explanation very visual and interview-ready.
+
+Do you want me to make that diagram?
+
